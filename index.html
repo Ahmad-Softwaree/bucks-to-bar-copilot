@@ -3,9 +3,506 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Bucks2Bar - Income & Expense Tracker</title>
+    <!-- Bootstrap 5 CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet" />
+    <style>
+      body {
+        background-color: #f8f9fa;
+      }
+      .month-input-group {
+        margin-bottom: 1rem;
+      }
+      .month-label {
+        font-weight: 600;
+        min-width: 80px;
+      }
+      #chartCanvas {
+        max-height: 400px;
+      }
+    </style>
   </head>
   <body>
-    <h1>Hello World</h1>
+    <div class="container my-5">
+      <h1 class="text-center mb-4">Bucks2Bar</h1>
+      <p class="text-center text-muted mb-5">
+        Track your monthly income and expenses
+      </p>
+
+      <!-- Username Input Section -->
+      <form id="usernameForm" class="card mb-4" novalidate>
+        <div class="card-body">
+          <div class="row justify-content-center">
+            <div class="col-md-6">
+              <div class="mb-3">
+                <label for="username" class="form-label">Username</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="username"
+                  name="username"
+                  placeholder="Enter username (min 5 chars, 1 uppercase, 1 number, 1 special char)"
+                  pattern="(?=.*[A-Z])(?=.*\d)(?=.*\W).{5,}"
+                  aria-describedby="usernameHelp"
+                  required />
+                <div id="usernameHelp" class="form-text text-muted">
+                  Must contain at least 1 uppercase letter, 1 number, 1 special
+                  character, and be at least 5 characters long.
+                </div>
+              </div>
+
+              <div
+                id="usernameError"
+                class="text-danger mt-2"
+                style="display: none"></div>
+              <div
+                id="usernameSuccess"
+                class="text-success mt-2"
+                style="display: none">
+                Username is valid!
+              </div>
+
+              <button
+                type="submit"
+                class="btn btn-primary mt-3"
+                id="submitUsername"
+                style="background-color: #ec4899; border-color: #ec4899">
+                Submit
+              </button>
+            </div>
+          </div>
+        </div>
+      </form>
+
+      <!-- Tabs Navigation -->
+      <ul class="nav nav-tabs mb-4" id="myTab" role="tablist">
+        <li class="nav-item" role="presentation">
+          <button
+            class="nav-link active"
+            id="data-tab"
+            data-bs-toggle="tab"
+            data-bs-target="#data"
+            type="button"
+            role="tab"
+            aria-controls="data"
+            aria-selected="true">
+            Data
+          </button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button
+            class="nav-link"
+            id="chart-tab"
+            data-bs-toggle="tab"
+            data-bs-target="#chart"
+            type="button"
+            role="tab"
+            aria-controls="chart"
+            aria-selected="false">
+            Chart
+          </button>
+        </li>
+      </ul>
+
+      <!-- Tabs Content -->
+      <div class="tab-content" id="myTabContent">
+        <!-- Data Tab -->
+        <div
+          class="tab-pane fade show active"
+          id="data"
+          role="tabpanel"
+          aria-labelledby="data-tab">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title mb-4">Monthly Data Entry</h5>
+
+              <!-- January -->
+              <div class="month-input-group row g-3 align-items-center">
+                <div class="col-md-2">
+                  <label class="month-label">January</label>
+                </div>
+                <div class="col-md-5">
+                  <div class="input-group">
+                    <span class="input-group-text">$</span>
+                    <input
+                      type="number"
+                      class="form-control income-input"
+                      id="income-jan"
+                      placeholder="Income"
+                      value="850" />
+                  </div>
+                </div>
+                <div class="col-md-5">
+                  <div class="input-group">
+                    <span class="input-group-text">$</span>
+                    <input
+                      type="number"
+                      class="form-control expense-input"
+                      id="expense-jan"
+                      placeholder="Expense"
+                      value="620" />
+                  </div>
+                </div>
+              </div>
+
+              <!-- February -->
+              <div class="month-input-group row g-3 align-items-center">
+                <div class="col-md-2">
+                  <label class="month-label">February</label>
+                </div>
+                <div class="col-md-5">
+                  <div class="input-group">
+                    <span class="input-group-text">$</span>
+                    <input
+                      type="number"
+                      class="form-control income-input"
+                      id="income-feb"
+                      placeholder="Income"
+                      value="920" />
+                  </div>
+                </div>
+                <div class="col-md-5">
+                  <div class="input-group">
+                    <span class="input-group-text">$</span>
+                    <input
+                      type="number"
+                      class="form-control expense-input"
+                      id="expense-feb"
+                      placeholder="Expense"
+                      value="580" />
+                  </div>
+                </div>
+              </div>
+
+              <!-- March -->
+              <div class="month-input-group row g-3 align-items-center">
+                <div class="col-md-2">
+                  <label class="month-label">March</label>
+                </div>
+                <div class="col-md-5">
+                  <div class="input-group">
+                    <span class="input-group-text">$</span>
+                    <input
+                      type="number"
+                      class="form-control income-input"
+                      id="income-mar"
+                      placeholder="Income"
+                      value="750" />
+                  </div>
+                </div>
+                <div class="col-md-5">
+                  <div class="input-group">
+                    <span class="input-group-text">$</span>
+                    <input
+                      type="number"
+                      class="form-control expense-input"
+                      id="expense-mar"
+                      placeholder="Expense"
+                      value="680" />
+                  </div>
+                </div>
+              </div>
+
+              <!-- April -->
+              <div class="month-input-group row g-3 align-items-center">
+                <div class="col-md-2">
+                  <label class="month-label">April</label>
+                </div>
+                <div class="col-md-5">
+                  <div class="input-group">
+                    <span class="input-group-text">$</span>
+                    <input
+                      type="number"
+                      class="form-control income-input"
+                      id="income-apr"
+                      placeholder="Income"
+                      value="880" />
+                  </div>
+                </div>
+                <div class="col-md-5">
+                  <div class="input-group">
+                    <span class="input-group-text">$</span>
+                    <input
+                      type="number"
+                      class="form-control expense-input"
+                      id="expense-apr"
+                      placeholder="Expense"
+                      value="720" />
+                  </div>
+                </div>
+              </div>
+
+              <!-- May -->
+              <div class="month-input-group row g-3 align-items-center">
+                <div class="col-md-2">
+                  <label class="month-label">May</label>
+                </div>
+                <div class="col-md-5">
+                  <div class="input-group">
+                    <span class="input-group-text">$</span>
+                    <input
+                      type="number"
+                      class="form-control income-input"
+                      id="income-may"
+                      placeholder="Income"
+                      value="950" />
+                  </div>
+                </div>
+                <div class="col-md-5">
+                  <div class="input-group">
+                    <span class="input-group-text">$</span>
+                    <input
+                      type="number"
+                      class="form-control expense-input"
+                      id="expense-may"
+                      placeholder="Expense"
+                      value="550" />
+                  </div>
+                </div>
+              </div>
+
+              <!-- June -->
+              <div class="month-input-group row g-3 align-items-center">
+                <div class="col-md-2">
+                  <label class="month-label">June</label>
+                </div>
+                <div class="col-md-5">
+                  <div class="input-group">
+                    <span class="input-group-text">$</span>
+                    <input
+                      type="number"
+                      class="form-control income-input"
+                      id="income-jun"
+                      placeholder="Income"
+                      value="820" />
+                  </div>
+                </div>
+                <div class="col-md-5">
+                  <div class="input-group">
+                    <span class="input-group-text">$</span>
+                    <input
+                      type="number"
+                      class="form-control expense-input"
+                      id="expense-jun"
+                      placeholder="Expense"
+                      value="640" />
+                  </div>
+                </div>
+              </div>
+
+              <!-- July -->
+              <div class="month-input-group row g-3 align-items-center">
+                <div class="col-md-2">
+                  <label class="month-label">July</label>
+                </div>
+                <div class="col-md-5">
+                  <div class="input-group">
+                    <span class="input-group-text">$</span>
+                    <input
+                      type="number"
+                      class="form-control income-input"
+                      id="income-jul"
+                      placeholder="Income"
+                      value="780" />
+                  </div>
+                </div>
+                <div class="col-md-5">
+                  <div class="input-group">
+                    <span class="input-group-text">$</span>
+                    <input
+                      type="number"
+                      class="form-control expense-input"
+                      id="expense-jul"
+                      placeholder="Expense"
+                      value="700" />
+                  </div>
+                </div>
+              </div>
+
+              <!-- August -->
+              <div class="month-input-group row g-3 align-items-center">
+                <div class="col-md-2">
+                  <label class="month-label">August</label>
+                </div>
+                <div class="col-md-5">
+                  <div class="input-group">
+                    <span class="input-group-text">$</span>
+                    <input
+                      type="number"
+                      class="form-control income-input"
+                      id="income-aug"
+                      placeholder="Income"
+                      value="900" />
+                  </div>
+                </div>
+                <div class="col-md-5">
+                  <div class="input-group">
+                    <span class="input-group-text">$</span>
+                    <input
+                      type="number"
+                      class="form-control expense-input"
+                      id="expense-aug"
+                      placeholder="Expense"
+                      value="590" />
+                  </div>
+                </div>
+              </div>
+
+              <!-- September -->
+              <div class="month-input-group row g-3 align-items-center">
+                <div class="col-md-2">
+                  <label class="month-label">September</label>
+                </div>
+                <div class="col-md-5">
+                  <div class="input-group">
+                    <span class="input-group-text">$</span>
+                    <input
+                      type="number"
+                      class="form-control income-input"
+                      id="income-sep"
+                      placeholder="Income"
+                      value="840" />
+                  </div>
+                </div>
+                <div class="col-md-5">
+                  <div class="input-group">
+                    <span class="input-group-text">$</span>
+                    <input
+                      type="number"
+                      class="form-control expense-input"
+                      id="expense-sep"
+                      placeholder="Expense"
+                      value="670" />
+                  </div>
+                </div>
+              </div>
+
+              <!-- October -->
+              <div class="month-input-group row g-3 align-items-center">
+                <div class="col-md-2">
+                  <label class="month-label">October</label>
+                </div>
+                <div class="col-md-5">
+                  <div class="input-group">
+                    <span class="input-group-text">$</span>
+                    <input
+                      type="number"
+                      class="form-control income-input"
+                      id="income-oct"
+                      placeholder="Income"
+                      value="970" />
+                  </div>
+                </div>
+                <div class="col-md-5">
+                  <div class="input-group">
+                    <span class="input-group-text">$</span>
+                    <input
+                      type="number"
+                      class="form-control expense-input"
+                      id="expense-oct"
+                      placeholder="Expense"
+                      value="520" />
+                  </div>
+                </div>
+              </div>
+
+              <!-- November -->
+              <div class="month-input-group row g-3 align-items-center">
+                <div class="col-md-2">
+                  <label class="month-label">November</label>
+                </div>
+                <div class="col-md-5">
+                  <div class="input-group">
+                    <span class="input-group-text">$</span>
+                    <input
+                      type="number"
+                      class="form-control income-input"
+                      id="income-nov"
+                      placeholder="Income"
+                      value="810" />
+                  </div>
+                </div>
+                <div class="col-md-5">
+                  <div class="input-group">
+                    <span class="input-group-text">$</span>
+                    <input
+                      type="number"
+                      class="form-control expense-input"
+                      id="expense-nov"
+                      placeholder="Expense"
+                      value="660" />
+                  </div>
+                </div>
+              </div>
+
+              <!-- December -->
+              <div class="month-input-group row g-3 align-items-center">
+                <div class="col-md-2">
+                  <label class="month-label">December</label>
+                </div>
+                <div class="col-md-5">
+                  <div class="input-group">
+                    <span class="input-group-text">$</span>
+                    <input
+                      type="number"
+                      class="form-control income-input"
+                      id="income-dec"
+                      placeholder="Income"
+                      value="890" />
+                  </div>
+                </div>
+                <div class="col-md-5">
+                  <div class="input-group">
+                    <span class="input-group-text">$</span>
+                    <input
+                      type="number"
+                      class="form-control expense-input"
+                      id="expense-dec"
+                      placeholder="Expense"
+                      value="610" />
+                  </div>
+                </div>
+              </div>
+
+              <div class="mt-4">
+                <button
+                  class="btn btn-primary"
+                  id="updateChart"
+                  style="background-color: #ec4899; border-color: #ec4899">
+                  Update Chart
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Chart Tab -->
+        <div
+          class="tab-pane fade"
+          id="chart"
+          role="tabpanel"
+          aria-labelledby="chart-tab">
+          <div class="card">
+            <div class="card-body">
+              <!-- download button -->
+              <a href="#" class="btn btn-success mb-4" id="downloadChart"
+                >Download</a
+              >
+              <h5 class="card-title mb-4">Income vs Expense Chart</h5>
+              <canvas id="chartCanvas"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <!-- Custom Script -->
+    <script src="script.js"></script>
   </body>
 </html>
