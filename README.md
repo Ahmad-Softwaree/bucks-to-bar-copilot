@@ -1,6 +1,6 @@
 # 💰 Bucks2Bar - Income & Expense Tracker
 
-[![GitHub](https://img.shields.io/badge/GitHub-Repository-181717?logo=github)](https://github.com/Ahmad-Softwaree/buckes-to-bar-copliot)
+[![GitHub](https://img.shields.io/badge/GitHub-Repository-181717?logo=github)](https://github.com/Ahmad-Softwaree/buckes-to-bar-copilot)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![Built with](https://img.shields.io/badge/Built%20with-GitHub%20Copilot-blue?logo=github)](https://github.com/features/copilot)
 
@@ -47,8 +47,8 @@ No installation required! Just a modern web browser.
 1. **Clone the repository**
 
    ```bash
-   git clone https://github.com/Ahmad-Softwaree/buckes-to-bar-copliot.git
-   cd buckes-to-bar-copliot
+   git clone https://github.com/Ahmad-Softwaree/buckes-to-bar-copilot.git
+   cd buckes-to-bar-copilot
    ```
 
 2. **Open in browser**
@@ -214,7 +214,7 @@ No build process required!
 **Ahmad Softwaree**
 
 - GitHub: [@Ahmad-Softwaree](https://github.com/Ahmad-Softwaree)
-- Repository: [buckes-to-bar-copliot](https://github.com/Ahmad-Softwaree/buckes-to-bar-copliot)
+- Repository: [buckes-to-bar-copilot](https://github.com/Ahmad-Softwaree/buckes-to-bar-copilot)
 
 ## 📄 License
 
